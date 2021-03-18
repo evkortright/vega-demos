@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v4.json",
+  "title": "Flights per airport",
+  "data": {
+    "name": "data1",
+    "url": {
+      "index": "kibana_sample_data_flights",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "origins": {
+            "terms": {
+              "field": "OriginAirportID",
+              "size": 25,
+              "order": {
+                "_key": "asc"
+              }
+            },
+            "aggs": {
+              "avg_distance": {
+                "avg": {
+                  "field": "DistanceMiles"
+                }
+              },
+              "avg_delay": {
+                "avg": {
+                  "field": "FlightDelayMin"
+                }
+              }
+            }
+          }
+        }
+      } 
+    },
+    "format": {
+      "property": "aggregations.origins.buckets"
+    }
+  },
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": {"data": "data1", "field": "key"},
+      "range": "width",
+      "padding": 0.05,
+      "round": true
+    },
+    {
+      "name": "y",
+      "domain": {"data": "data1", "field": "avg_delay.value",
+        "type": "quantitative"},
+      "range": "height"
+    }
+  ],
+  "axes": [
+    {"orient": "bottom", "scale": "x"},
+    {"orient": "left", "scale": "y"}
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data": "data1"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "x", "field": "key"},
+          "width": {"scale": "x", "band": 1},
+          "y": {"scale": "y", "field": "avg_delay.value"},
+          "y2": {"scale": "y", "value": 0},
+          "tooltip": {"field": "avg_delay.value", "formatType": "number", "format": ".2f"}
+        },
+        "update": {
+          "fill": {"value": "steelblue"}
+        },
+        "hover": {
+          "fill": {"value": "red"}
+        }
+      }
+    }
+  ]
+}
+
