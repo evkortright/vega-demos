@@ -1,0 +1,19 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "values":
+    [
+      {"cat": "A", "qty": 2}
+      {"cat": "A", "qty": 5},
+      {"cat": "B", "qty": 1},
+      {"cat": "C", "qty": 2},
+      {"cat": "D", "qty": 3}
+    ]
+  },
+  "mark": "point",
+  "encoding": {
+    "x": {"field": "cat", "type": "nominal"},
+    "y": {"aggregate": "average", "field": "qty", "type": "quantitative"}
+  }
+}
+
