@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "A scatterplot showing distance and delays.",
+  "data": {
+    "name": "data1",
+    "url": {
+      "index": "kibana_sample_data_flights",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "by_day": {
+            "date_histogram": {
+              "field": "timestamp",
+              "calendar_interval": "day"
+            },
+            "aggs": {
+              "avg_delay": {
+                "avg": {
+                  "field": "FlightDelayMin"
+                }
+              },
+              "avg_distance": {
+                "avg": {
+                  "field": "DistanceMiles"
+                }
+              },
+              "weighted_avg_distance": {
+                "weighted_avg": {
+                  "value": {
+                    "field": "DistanceMiles"
+                  },
+                  "weight": {
+                    "field": "FlightDelayMin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } 
+    },
+    "format": {
+      "property": "aggregations.by_day.buckets"
+    }
+  },
+  "layer": [
+    {
+      "mark": "point",
+      "encoding": {
+        "x": {"field": "avg_distance.value", "type": "quantitative", "title": "avg distance (mi)"},
+        "y": {"field": "avg_delay.value", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "errorband", "extent": "stdev", "opacity": 0.25},
+      "encoding": {
+        "y": {
+          "field": "avg_delay.value",
+          "type": "quantitative",
+          "title": "Delay (min)"
+        }
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "y": {
+          "field": "avg_delay.value",
+          "type": "quantitative",
+          "aggregate": "mean"
+        }
+      }
+    }
+  ]
+}
