@@ -10,10 +10,10 @@
       {"cat": "D", "qty": 3}
     ]
   },
-  "mark": "point",
+  "mark": "bar",
   "encoding": {
-    "x": {"field": "cat", "type": "nominal"},
-    "y": {"aggregate": "average", "field": "qty", "type": "quantitative"}
+    "x": {"field": "cat", "type": "nominal", "title": "category"},
+    "y": {"aggregate": "average", "field": "qty", "type": "quantitative", "title": "average quantity"}
   }
 }
 
