@@ -1,0 +1,23 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v3.0.json",
+  "autosize": "pad",
+  "background": "#eef2e8",
+  "padding": 5,
+  "marks": [
+    {
+      "type": "text",
+      "encode": {
+        "update": {
+          "text": {"value": "Hello, World!"},
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "stroke": {"value": "#6655ff"},
+          "angle": {"value": 20},
+          "x": {"signal": "width/2"},
+          "y": {"signal": "height/2"}
+        }
+      }
+    }
+  ]
+}
+
