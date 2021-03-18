@@ -1,0 +1,20 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "url": {
+      "index": "data1",
+      "body": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    },
+    "format": {"property": "hits.hits"}
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "_source.category", "type": "nominal"},
+    "y": {"aggregate": "average", "field": "_source.amount", "type": "quantitative"}
+  }
+}
+

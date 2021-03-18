@@ -1,0 +1,12 @@
+  "data": {
+    "url": {
+      "index": "data1",
+      "body": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    },
+    "format": {"property": "hits.hits"}
+  }
+
