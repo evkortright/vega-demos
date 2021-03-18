@@ -1,0 +1,43 @@
+  "data": {
+    "name": "data1",
+    "url": {
+      "index": "kibana_sample_data_flights",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "by_day": {
+            "date_histogram": {
+              "field": "timestamp",
+              "calendar_interval": "day"
+            },
+            "aggs": {
+              "avg_delay": {
+                "avg": {
+                  "field": "FlightDelayMin"
+                }
+              },
+              "avg_distance": {
+                "avg": {
+                  "field": "DistanceMiles"
+                }
+              },
+              "weighted_avg_distance": {
+                "weighted_avg": {
+                  "value": {
+                    "field": "DistanceMiles"
+                  },
+                  "weight": {
+                    "field": "FlightDelayMin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } 
+    },
+    "format": {
+      "property": "aggregations.by_day.buckets"
+    }
+  },
+

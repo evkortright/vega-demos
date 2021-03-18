@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "name": "data1",
+    "url": {
+      "index": "kibana_sample_data_flights",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "by_day": {
+            "date_histogram": {
+              "field": "timestamp",
+              "calendar_interval": "day"
+            },
+            "aggs": {
+              "avg_delay": {
+                "avg": {
+                  "field": "FlightDelayMin"
+                }
+              },
+              "avg_distance": {
+                "avg": {
+                  "field": "DistanceMiles"
+                }
+              },
+              "weighted_avg_distance": {
+                "weighted_avg": {
+                  "value": {
+                    "field": "DistanceMiles"
+                  },
+                  "weight": {
+                    "field": "FlightDelayMin"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } 
+    },
+    "format": {
+      "property": "aggregations.by_day.buckets"
+    }
+  },
+
+  "vconcat": [{
+    "width": 480,
+    "mark": "area",
+    "encoding": {
+      "x": {
+        "field": "key",
+        "type": "temporal",
+        "scale": {"domain": {"selection": "brush"}},
+        "axis": {"title": ""}
+      },
+      "y": {"field": "weighted_avg_distance.value", "type": "quantitative"}
+    }
+  }, {
+    "width": 480,
+    "height": 60,
+    "mark": "area",
+    "selection": {
+      "brush": {"type": "interval", "encodings": ["x"]}
+    },
+    "encoding": {
+      "x": {
+        "field": "key",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "weighted_avg_distance.value",
+        "type": "quantitative",
+        "axis": {"tickCount": 3, "grid": false}
+      }
+    }
+  }]
+}
+
